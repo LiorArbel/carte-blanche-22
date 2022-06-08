@@ -1,2 +1,2 @@
-web: cd front && npm start
+web: cd front && npm run
 realtime: node ./realtime-server/index.js
