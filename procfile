@@ -1,1 +1,2 @@
-web: npm start
+web: cd front && npm start
+realtime: node ./realtime-server/index.js
