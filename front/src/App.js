@@ -4,6 +4,8 @@ import './App.css';
 
 let context = null;
 
+const publicUrl = process.env.REACT_APP_PUBLIC_URL || "localhost:8080";
+
 const beep = (freq = 340, duration = 200, vol = 10) => {
     const oscillator = context.createOscillator();
     const gain = context.createGain();
@@ -19,7 +21,7 @@ const beep = (freq = 340, duration = 200, vol = 10) => {
 function App() {
   useEffect(() => {
     context = new AudioContext();
-    var exampleSocket = new WebSocket("ws://localhost:8080");
+    var exampleSocket = new WebSocket("ws://" + publicUrl);
     exampleSocket.onmessage = (e) => {
       console.log(e);
       beep();
@@ -30,7 +32,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reloadasdasdasd.
+          server address is {publicUrl}.
         </p>
         <a
           className="App-link"
