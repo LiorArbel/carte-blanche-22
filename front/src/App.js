@@ -21,7 +21,10 @@ const beep = (freq = 340, duration = 200, vol = 10) => {
 function App() {
   useEffect(() => {
     context = new AudioContext();
-    exampleSocket = new WebSocket("wss://" + publicUrl);
+    exampleSocket = new WebSocket("wss://" + publicUrl, );
+    exampleSocket.onopen = (e) => {
+      console.log("connected successfully!!!");
+    }
     exampleSocket.onmessage = (e) => {
       console.log(e);
       beep();
