@@ -4,8 +4,9 @@ exports.__esModule = true;
 var ws_1 = require("ws");
 var readline = require("node:readline");
 console.log("asdasd");
+var PORT = 8081;
 // Creating a new websocket server
-var wss = new ws_1.WebSocketServer({ port: 8080 });
+var wss = new ws_1.WebSocketServer({ port: PORT });
 // Creating connection using websocket
 wss.on("connection", function (ws) {
     console.log("new client connected");
@@ -22,7 +23,7 @@ wss.on("connection", function (ws) {
         console.log("Some Error occurred");
     };
 });
-console.log("The WebSocket server is running on port 8080");
+console.log("The WebSocket server is running on port {PORT}");
 var rl = readline.createInterface(process.stdin, process.stdout);
 rl.setPrompt('guess> ');
 rl.prompt();

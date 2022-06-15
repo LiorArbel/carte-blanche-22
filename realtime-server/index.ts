@@ -4,9 +4,10 @@ import { WebSocketServer } from 'ws';
 import * as readline from 'node:readline';
 
 console.log("asdasd");
- 
+const PORT = 8081;
+
 // Creating a new websocket server
-const wss = new WebSocketServer({port: 8080});
+const wss = new WebSocketServer({port: PORT});
  
 // Creating connection using websocket
 wss.on("connection", ws => {
@@ -24,7 +25,7 @@ wss.on("connection", ws => {
         console.log("Some Error occurred")
     }
 });
-console.log("The WebSocket server is running on port 8080");
+console.log(`The WebSocket server is running on port {PORT}`);
 
 var rl = readline.createInterface(process.stdin, process.stdout);
 rl.setPrompt('guess> ');
