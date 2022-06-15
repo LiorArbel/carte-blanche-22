@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 let context = null;
-
+var exampleSocket;
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || "localhost:8080";
 
 const beep = (freq = 340, duration = 200, vol = 10) => {
@@ -21,7 +21,7 @@ const beep = (freq = 340, duration = 200, vol = 10) => {
 function App() {
   useEffect(() => {
     context = new AudioContext();
-    var exampleSocket = new WebSocket("ws://" + publicUrl);
+    exampleSocket = new WebSocket("wss://" + publicUrl);
     exampleSocket.onmessage = (e) => {
       console.log(e);
       beep();
