@@ -5,17 +5,23 @@ import './App.css';
 let context = null;
 var exampleSocket;
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || "localhost:8080";
+let aud = new Audio("/15 step.mp3");
+aud.load();
+
+window.socket = exampleSocket;
+window.aud = aud;
 
 const beep = (freq = 340, duration = 200, vol = 10) => {
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.connect(gain);
-    oscillator.frequency.value = freq;
-    oscillator.type = "square";
-    gain.connect(context.destination);
-    gain.gain.value = vol * 0.01;
-    oscillator.start(context.currentTime);
-    oscillator.stop(context.currentTime + duration * 0.001);
+    // const oscillator = context.createOscillator();
+    // const gain = context.createGain();
+    // oscillator.connect(gain);
+    // oscillator.frequency.value = freq;
+    // oscillator.type = "square";
+    // gain.connect(context.destination);
+    // gain.gain.value = vol * 0.01;
+    // oscillator.start(context.currentTime);
+    // oscillator.stop(context.currentTime + duration * 0.001);
+    aud.play();
 }
 
 function App() {
