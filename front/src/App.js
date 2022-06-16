@@ -2,7 +2,7 @@ import {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-let context = null;
+// let context = null;
 var exampleSocket;
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || "localhost:8080";
 let aud = new Audio("/15 step.mp3");
@@ -26,7 +26,7 @@ const beep = (freq = 340, duration = 200, vol = 10) => {
 
 function App() {
   useEffect(() => {
-    context = new AudioContext();
+    // context = new AudioContext();
     exampleSocket = new WebSocket("wss://" + publicUrl, );
     exampleSocket.onopen = (e) => {
       console.log("connected successfully!!!");
