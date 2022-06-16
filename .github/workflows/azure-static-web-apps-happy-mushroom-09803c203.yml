@@ -32,7 +32,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env:
-          REACT_APP_PUBLIC_URL: "https://happy-mushroom-09803c203.1.azurestaticapps.net"
+          REACT_APP_PUBLIC_URL: "carte-blanche22-server.azurewebsites.net"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
