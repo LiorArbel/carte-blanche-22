@@ -14,7 +14,7 @@ aud.preload = "auto";
 function App() {
   const [recievedPlay, setRecievedPlay] = useState(false);
   useEffect(() => {
-    exampleSocket = new WebSocket("ws://" + publicUrl,);
+    exampleSocket = new WebSocket("wss://" + publicUrl,);
     exampleSocket.onopen = (e) => {
       console.log("connected successfully!!!");
     }
