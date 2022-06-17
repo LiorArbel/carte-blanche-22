@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Viewer from './routes/viewer';
@@ -18,7 +18,7 @@ function App() {
   const sendColor = (c) => {
     exampleSocket.send(JSON.stringify({ color: c }));
   }
-  const optimisedSendColor = useCallback(
+  const optimisedSendColor = useMemo(() =>
     _.throttle(sendColor, 300),
     []
   );
