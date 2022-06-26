@@ -1,17 +1,16 @@
 import { useEffect, useState, useMemo } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Viewer from './routes/viewer';
+import Viewer from './routes/viewer.tsx';
 import Controller from './routes/controller';
 import _ from 'lodash';
 
 let exampleSocket;
 // const publicUrl = process.env.REACT_APP_PUBLIC_URL || "localhost:8081";
 const publicUrl = process.env.REACT_APP_PUBLIC_URL || "carte-blanche22-server.azurewebsites.net";
-let aud = new Audio("/15step.mp3");
-aud.preload = "auto";
 
 function App() {
+  let audio = useMemo(() => new Audio("/15step.mp3"), []);
   const [recievedPlay, setRecievedPlay] = useState(false);
   const [ping, setPing] = useState(0);
   const [color, setColor] = useState("#000000");
@@ -25,6 +24,8 @@ function App() {
   );
 
   useEffect(() => {
+    audio.preload = "auto";
+    audio.currentTime = 10000;
     exampleSocket = new WebSocket("wss://" + publicUrl,);
     exampleSocket.onopen = (e) => {
       console.log("connected successfully!!!");
@@ -32,21 +33,22 @@ function App() {
     }
     exampleSocket.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      console.log(data);
-      if(data.type === "ping"){
-        setPing(() => (ping + ((new Date()).getTime() - (new Date(data.startTime)).getTime()))/2);
+      if (data.type === "ping") {
+        setPing(() => (ping + ((new Date()).getTime() - (new Date(data.startTime)).getTime())) / 2);
+        return;
       }
+      console.log(data);
       if (data.music) {
-        if(data.music === "playWithCorrection"){
-          aud.play();
-          aud.currentTime = ping/2/1000;
+        if (data.music === "playWithCorrection") {
+          audio.play();
+          audio.currentTime = ping / 2 / 1000;
         }
         if (data.music === "play") {
-          aud.play();
-          aud.currentTime = 0;
+          audio.play();
+          audio.currentTime = 0;
         } else if (data.music === "stop") {
-          aud.pause();
-          aud.currentTime = 0;
+          // audio.pause();
+          audio.currentTime = 300000;
         }
         setRecievedPlay(data.music === "play");
         setTimeout(() => setRecievedPlay(false), 2000);
@@ -60,19 +62,9 @@ function App() {
   return (
     <div className="App">
       <header style={{ backgroundColor: color }} className="App-header">
-        <p>
-          server address is {publicUrl}.
-        </p>
-        <p>
-          ping is {ping}
-        </p>
-        {recievedPlay && <p>
-          recieved a play request!
-        </p>}
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Viewer />} />
-            <Route path="viewer" element={<Viewer />} />
+            <Route path="/" element={<Viewer audio={audio}/>} />
             <Route path="controller" element={
               <Controller
                 play={() => exampleSocket.send(JSON.stringify({ music: "play" }))}
@@ -82,7 +74,7 @@ function App() {
                   setColor(c);
                   optimisedSendColor(c);
                 }}
-                {...{ color }}
+                {...{ color, ping, recievedPlay, publicUrl, audio }}
               />
             } />
           </Routes>
@@ -92,8 +84,8 @@ function App() {
   );
 }
 
-function pingLoop(socket:WebSocket){
-  socket.send(JSON.stringify({type: "ping", startTime: new Date()}));
+function pingLoop(socket: WebSocket) {
+  socket.send(JSON.stringify({ type: "ping", startTime: new Date() }));
   setTimeout(() => pingLoop(socket), 500);
 }
 
